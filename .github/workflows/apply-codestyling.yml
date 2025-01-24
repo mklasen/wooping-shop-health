@@ -46,8 +46,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            console.log("PR Number:", ${{ github.event.pull_request.number }});
             github.issues.createComment({
-              issue_number: ${{ github.event.pull_request.number }},
+              issue_number: process.env.PR_NUMBER,
               body: "Code styling issues have been fixed and committed to the PR branch automatically."
             });
+          env:
+            PR_NUMBER: ${{ github.event.pull_request.number }}
