@@ -3,7 +3,7 @@ name: Auto-Fix Code Styling
 on:
   pull_request:
     branches:
-      - "**"  # Runs on PRs to any branch
+      - "**"
 
 jobs:
   codestyle:
@@ -23,20 +23,31 @@ jobs:
   
       - name: Fix code styling with Composer
         run: |
-          composer fix-cs || true # Suppress any errors so the workflow continues
+          composer fix-cs || true
 
-      - name: Commit and push changes
+      - name: Commit changes if any
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "fix: Auto-fix code styling issues" || echo "No changes to commit"
+
+      - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref }} # Push changes back to the PR branch
+          branch: ${{ github.head_ref }}
           force: true
   
+      - name: Debug PR number
+        run: echo "Pull Request Number: ${{ github.event.pull_request.number }}"
+
       - name: Comment on PR
         uses: actions/github-script@v6
         with:
           script: |
+            console.log("PR Number:", ${{ github.event.pull_request.number }});
             github.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
               body: "Code styling issues have been fixed and committed to the PR branch automatically."
-            })
+            });
