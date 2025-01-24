@@ -65,17 +65,16 @@ abstract class Validator {
 		return true;
 	}
 
-
 	/**
-	 * Returns the requirements for this validator. 
+	 * Returns the requirements for this validator.
 	 */
 	public function requirements(): array {
-		
+
 		// Retrieve the slug
 		$slug = $this->get_validator_slug();
-		
+
 		// This turns into 'wooping/validators/has_category/requirements'.
-		return apply_filters( "wooping/validators/$slug/requirements", static::REQUIREMENTS );
+		return \apply_filters( "wooping/validators/$slug/requirements", static::REQUIREMENTS );
 	}
 
 	/**
@@ -85,9 +84,9 @@ abstract class Validator {
 
 		// Retrieve the slug
 		$slug = $this->get_validator_slug();
-		
+
 		// This turns into 'wooping/validators/has_category/severity'.
-		return apply_filters( "wooping/validators/$slug/severity", static::SEVERITY );
+		return \apply_filters( "wooping/validators/$slug/severity", static::SEVERITY );
 	}
 
 	/**
@@ -101,12 +100,12 @@ abstract class Validator {
 	 * Returns the validator's short_name as a snake-case string.
 	 */
 	public function get_validator_slug(): string {
-		return strtolower( 
-			preg_replace(
-				'/([a-z])([A-Z])/', 
-				'$1_$2', 
-				$this->get_validator_short_name() 
-			) 
+		return \strtolower(
+			\preg_replace(
+				'/([a-z])([A-Z])/',
+				'$1_$2',
+				$this->get_validator_short_name()
+			)
 		);
 	}
 
@@ -136,8 +135,8 @@ abstract class Validator {
 		$issue = $this->find_issue();
 
 		// Allow plugin develors to check if this validator can be resolved. Defaults to yes.
-		$slug = $this->get_validator_slug();
-		$can_be_resolved = apply_filters( "wooping/validators/$slug/can_be_resolved", true, $this );
+		$slug            = $this->get_validator_slug();
+		$can_be_resolved = \apply_filters( "wooping/validators/$slug/can_be_resolved", true, $this );
 
 		// mark issue as resolved, if it exists.
 		if ( ! \is_null( $issue ) && $can_be_resolved ) {
