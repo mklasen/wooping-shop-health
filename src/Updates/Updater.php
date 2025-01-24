@@ -108,11 +108,11 @@ class Updater implements Hookable {
 		if ( $this->verify_update_is_ours( $options ) ) {
 			// Schedule the max-score calculation.
 			\as_enqueue_async_action( 'wooping/shop-health/calculate_max_scores', [], '', true );
-		
+
 			// Re-save the statistics.
 			\as_enqueue_async_action( 'wooping/shop-health/refresh_stats', [], '', true );
 
-			// Run general migration scrips 
+			// Run general migration scrips
 			\as_enqueue_async_action( 'woop_after_update', $options, '', true );
 		}
 	}
