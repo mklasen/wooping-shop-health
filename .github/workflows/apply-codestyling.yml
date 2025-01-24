@@ -44,8 +44,6 @@ jobs:
         with:
           script: |
             github.issues.createComment({
-              issue_number: process.env.PR_NUMBER,
+              issue_number: ${{ github.event.pull_request.number }},
               body: "Code styling issues have been fixed and committed to the PR branch automatically."
             });
-          env:
-            PR_NUMBER: ${{ github.event.pull_request.number }}
