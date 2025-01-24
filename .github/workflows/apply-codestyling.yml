@@ -38,9 +38,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref }}
           force: true
-  
-      - name: Debug PR number
-        run: echo "Pull Request Number: ${{ github.event.pull_request.number }}"
 
       - name: Comment on PR
         uses: actions/github-script@v6
