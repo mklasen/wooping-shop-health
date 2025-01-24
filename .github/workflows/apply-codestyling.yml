@@ -21,9 +21,9 @@ jobs:
         run: |
           composer install -o -q
   
-      - name: Install npm dependencies
+      - name: Fix code styling with Composer
         run: |
-          composer fix-cs
+          composer fix-cs || true # Suppress any errors so the workflow continues
 
       - name: Commit and push changes
         uses: ad-m/github-push-action@v0.6.0
